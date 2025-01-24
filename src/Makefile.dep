@@ -1,0 +1,31 @@
+main.o: main.c usbdevfile.h types_u.h em287x.h tc90522.h mxl136.h \
+ tda20142.h tsthread.h utils.h verstr.h message.h
+utils.o: utils.c decoder.h utils.h message.h tssplitter_lite.h channel.h
+message.o: message.c message.h
+osdepend.o: osdepend.c osdepend.h types_u.h
+usbdevfile.o: usbdevfile.c usbdevfile.h types_u.h message.h
+usbops.o: usbops.c usbops.h types_u.h message.h
+tsthread.o: tsthread.c usbops.h types_u.h osdepend.h tsbuff.h tsthread.h \
+ message.h
+em287x.o: em287x.c usbops.h types_u.h osdepend.h em287x.h em287x_usb.h \
+ em287x_priv.h message.h
+em287x_usb.o: em287x_usb.c osdepend.h types_u.h em287x_usb.h \
+ em287x_priv.h message.h
+tc90522.o: tc90522.c osdepend.h types_u.h tc90522.h message.h
+mxl136.o: mxl136.c osdepend.h types_u.h mxl136.h message.h
+tda20142.o: tda20142.c osdepend.h types_u.h tda20142.h message.h
+tssplitter_lite.o: tssplitter_lite.c decoder.h tssplitter_lite.h
+arib_std_b25.o: arib25/arib_std_b25.c arib25/arib_std_b25.h \
+ arib25/arib25_api.h arib25/portable.h arib25/b_cas_card.h \
+ arib25/arib_std_b25_error_code.h arib25/multi2.h \
+ arib25/ts_common_types.h arib25/ts_section_parser.h
+b_cas_card.o: arib25/b_cas_card.c arib25/b_cas_card.h arib25/arib25_api.h \
+ arib25/portable.h arib25/b_cas_card_error_code.h arib25/../em2874-card.h
+ts_section_parser.o: arib25/ts_section_parser.c \
+ arib25/ts_section_parser.h arib25/arib25_api.h arib25/ts_common_types.h \
+ arib25/portable.h arib25/ts_section_parser_error_code.h
+multi2.o: arib25/multi2.cpp arib25/multi2.h arib25/arib25_api.h \
+ arib25/portable.h arib25/multi2_error_code.h arib25/multi2_compat.h \
+ arib25/multi2_cipher.h arib25/multi2_block.h arib25/multi2_ymm2.h \
+ arib25/multi2_ymm.h arib25/multi2_xmm.h arib25/multi2_neon2.h \
+ arib25/multi2_neon.h
