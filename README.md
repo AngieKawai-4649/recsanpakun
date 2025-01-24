@@ -65,5 +65,53 @@ BSはチャンネル単位で作成するのでサービスで細分化したい
 　BSキャンパスON  
 　等  
 
+## 【USBデバイスの固定】  
+USB機器を追加、取り外しを行うとチューナーデバイスのUSBパスが変わってしまうので  
+チューナーを接続しているUSBポートの物理的な場所に対してチューナーデバイス名称を付ける  
 
- 
+$ lsusb で各チューナーデバイスのUSBパスを調べる  
+$ udevadm でUSBポートの物理的な場所を調べる  
+
+例 $ udevadm info -n /dev/bus/usb/001/005 -q path  
+　出力値例 /devices/pci0000:00/0000:00:08.1/0000:05:00.3/usb1/1-4/1-4.1 が物理的な場所である  
+　rulesファイルでDEVPATHに指定する  
+　SYMLINKで指定した名称で /devにデバイスのシンボリックリンクが作成されるのでmirakurun tuners.ymlでそのデバイス名称を使用する  
+
+　ATTRを調べる例 $ udevadm info -a -p \`udevadm info -q path -n /dev/bus/usb/001/005\`  
+
+## [ruleファイルの作成]  
+/lib/udev/rules.d  and /etc/udev/rules.d 配下のファイルをチェックし、使用していない番号のルールファイルを/etc/udev/rules.dに作成する  
+　例：93-tuner.rules  
+　　ファイル保存後、ルールを反映  
+　　$ sudo udevadm control --reload  
+　　リブート後、デバイスを確認する  
+　　$ ls /dev  
+
+## [ruleファイルの内容例]  
+\# SANPAKUN  
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="0511", ATTRS{idProduct}=="0045",  
+ DEVPATH=="/devices/pci0000:00/0000:00:08.1/0000:05:00.3/usb1/1-4/1-4.3", MODE="0664", GROUP="video", SYMLINK+="SANPAKUN_1"  
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="0511", ATTRS{idProduct}=="0045",  
+ DEVPATH=="/devices/pci0000:00/0000:00:08.1/0000:05:00.3/usb1/1-4/1-4.4", MODE="0664", GROUP="video", SYMLINK+="SANPAKUN_2"  
+
+## [mirakurun tuners.ymlの内容例]  
+
+ \- name: SANPAKUN-ST1  
+  types:  
+    \- GR  
+    \- BS  
+    \- CS  
+  command: recsanpakun --b25 --dev /dev/SANPAKUN_1 <channel> - -  
+  decoder:  
+  isDisabled: false  
+
+\- name: SANPAKUN-ST2  
+  types:  
+    \- GR  
+    \- BS  
+    \- CS  
+  command: recsanpakun --b25 --dev /dev/SANPAKUN_2 <channel> - -  
+  decoder:  
+  isDisabled: false  
+
+※地デジを使用しない場合は - GR を削除する  
