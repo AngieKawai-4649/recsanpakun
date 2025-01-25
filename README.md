@@ -12,16 +12,16 @@ PRODUCT-ID  0x0045
 １．コンパイル時のワーニング除去  
 ２．内蔵カードリーダーを使用できるように修正  
 ３．tssplitter_liteが正常に機能するように修正  
-　　(B25Decodeを行ってからtssplitter_liteを実行するようにした)  
+　(B25Decodeを行ってからtssplitter_liteを実行するようにした)  
 ４．地デジ視聴時は地デジのみ、BS/CS視聴時はBS/CSチューナーのみ開くように修正  
-　　(mirakurunではチャンネルを切り替える度にプロセスを再起動しているので  
-　　地デジ視聴時にBSチューナーを開けてスリープにしている運用を止めた）  
+　(mirakurunではチャンネルを切り替える度にプロセスを再起動しているので  
+　地デジ視聴時にBSチューナーを開けてスリープにしている運用を止めた）  
 ５．実行ファイル名をrecsanpakunに変更  
 ６．チャンネルファイル名称をbscs_ch.confに変更  
-　　(recdvbもこのファイルを使用するように修正)  
+　(recdvbもこのファイルを使用するように修正)  
 ７．bscs_ch.confをフルパスで指定する環境変数 BSCSCHPATH を設定  
-　　BSCSCHPATH設定時はそのディレクトリパス配下にbscs_ch.confを置く  
-　　BSCSCHPATHが設定されていない時はrecsanpakunと同じディレクトリ(通常は/usr/local/bin)にbscs_ch.confを置く  
+　BSCSCHPATH設定時はそのディレクトリパス配下にbscs_ch.confを置く  
+　BSCSCHPATHが設定されていない時はrecsanpakunと同じディレクトリ(通常は/usr/local/bin)にbscs_ch.confを置く  
 
 ## 【ビルド方法】  
 Makefile中のコメントを参照  
@@ -89,18 +89,18 @@ $ udevadm でUSBポートの物理的な場所を調べる
 
 ## [ruleファイルの内容例]  
 \# SANPAKUN  
-SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="0511", ATTRS{idProduct}=="0045",  
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="0511", ATTRS{idProduct}=="0045",
  DEVPATH=="/devices/pci0000:00/0000:00:08.1/0000:05:00.3/usb1/1-4/1-4.3", MODE="0664", GROUP="video", SYMLINK+="SANPAKUN_1"  
-SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="0511", ATTRS{idProduct}=="0045",  
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="0511", ATTRS{idProduct}=="0045",
  DEVPATH=="/devices/pci0000:00/0000:00:08.1/0000:05:00.3/usb1/1-4/1-4.4", MODE="0664", GROUP="video", SYMLINK+="SANPAKUN_2"  
 
 ## [mirakurun tuners.ymlの内容例]  
 
- \- name: SANPAKUN-ST1  
-  types:  
-    \- GR  
-    \- BS  
-    \- CS  
+\- name: SANPAKUN-ST1  
+types:  
+ \- GR  
+ \- BS  
+ \- CS  
   command: recsanpakun --b25 --dev /dev/SANPAKUN_1 <channel> - -  
   decoder:  
   isDisabled: false  
