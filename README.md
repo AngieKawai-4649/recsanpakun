@@ -60,17 +60,6 @@ destfile: TS出力ファイル名を指定する ( - 指定時は標準出力）
 　スーパードラマTVを１分間録画する  
 　./recsanpakun -v --b25 --sid 310 CS14 60 ccc.ts  
 
-## 【おまけ】  
-bscs_ch.conf を元にmirakurun channels.ymlフォーマットで出力するツール  
-
-$ awk -f bscs.awk bscs_ch.conf  
-
-BSはチャンネル単位で作成するのでサービスで細分化したいものは適当に編集する  
-　NHK BS 1 サブチャンネル  
-　BSキャンパスEX  
-　BSキャンパスON  
-　等  
-
 ## 【USBデバイスの固定】  
 USB機器を追加、取り外しを行うとチューナーデバイスのUSBパスが変わってしまうので  
 チューナーを接続しているUSBポートの物理的な場所に対してチューナーデバイス名称を付ける  
