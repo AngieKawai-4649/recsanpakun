@@ -22,9 +22,15 @@ PRODUCT-ID  0x0045
 ７．bscs_ch.confをフルパスで指定する環境変数 BSCSCHPATH を設定  
 　BSCSCHPATH設定時はそのディレクトリパス配下にbscs_ch.confを置く  
 　BSCSCHPATHが設定されていない時はrecsanpakunと同じディレクトリ(通常は/usr/local/bin)にbscs_ch.confを置く  
+8. 上記6 7 を全て廃止 チャンネル情報はchannelconfから取得するように修正  
+  
 
 ## 【ビルド方法】  
-Makefile中のコメントを参照  
+b25デコードをする場合、事前に https://github.com/AngieKawai-4649/libarib25 を導入する  
+事前に https://github.com/AngieKawai-4649/channelconf を導入する（必須）  
+取得  
+git clone https://github.com/AngieKawai-4649/recsanpakun.git  
+ビルド方法はMakefile中のコメントを参照  
 
 ## 【使用方法】  
 recsanpakun [-v] [--b25] [--dev devfile] [--tsid n] [--sid hd,sd1,sd2,sd3,1seg,all,epg,epg1seg] channel recsec destfile  
